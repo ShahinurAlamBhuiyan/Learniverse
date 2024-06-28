@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "target": "ES2020", // or another version if you need a different target
+      "module": "NodeNext",
+      "moduleResolution": "NodeNext",
+      "outDir": "./dist",
+      "rootDir": "./",
+      "strict": true, // optional, enables all strict type-checking options
+      "esModuleInterop": true, // optional, provides compatibility between ES modules and CommonJS modules
+      "skipLibCheck": true, // optional, skips type checking of declaration files
+      "forceConsistentCasingInFileNames": true // optional, ensures consistent casing in file names
+    },
+    "include": ["./**/*.ts"],
+    "exclude": ["node_modules"]
+  }
+  
