@@ -38,13 +38,15 @@ export const registrationUser = CatchAsyncError(async(req: Request, res: Respons
         const html = await ejs.renderFile(path.join(__dirname, "../mails/activation-mail.ejs"), data);
 
         try {
+            console.log('hit1')
             await sendMail({
                 email: user.email,
                 subject: "Activate your account",
                 template: "activation-mail.ejs",
-                data
+                data,
             });
-
+            
+            console.log('hit')
             res.status(201).json({
                 success: true,
                 message: `Please check your email: ${user.email}to activate your account!`,
