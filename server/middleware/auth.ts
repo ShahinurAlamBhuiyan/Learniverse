@@ -8,7 +8,6 @@ import { redis } from "../utils/redis";
 // Authenticated User
 export const isAuthenticated = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     const access_token = req.cookies.access_token as string;
-    console.log(req.cookies)
 
     if(!access_token) return next(new ErrorHandler("Please login to access this resource!", 400));
 
