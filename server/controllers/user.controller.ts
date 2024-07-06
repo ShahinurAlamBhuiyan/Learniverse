@@ -10,6 +10,7 @@ import sendMail from "../utils/sendMail";
 import { accessTokenOptions, refreshTokenOptions, sendToken } from "../utils/jwt";
 import { redis } from "../utils/redis";
 import { RedisKey } from "ioredis";
+import { getUserById } from "../services/user.service";
 
 
 // register user
@@ -203,6 +204,17 @@ export const updateAccessToken = CatchAsyncError(async(req: Request, res: Respon
             accessToken
         })
     } catch (error: any) {
+        return next(new ErrorHandler(error.message, 400));
+    }
+})
+
+
+// get user info
+export const getUserInfo = CatchAsyncError( async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = req.user?._id;
+        getUserById(userId, res);
+    }  catch (error: any) {
         return next(new ErrorHandler(error.message, 400));
     }
 })
