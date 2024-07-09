@@ -285,3 +285,35 @@ export const updateUserInfo = CatchAsyncError(async (req: Request, res: Response
 
 
 // update user password
+interface IUpdatePassword{
+    oldPassword: string;
+    newPassword: string;
+}
+
+export const updatePassword = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { oldPassword, newPassword} = req.body as IUpdatePassword;
+
+        if(!oldPassword || !newPassword) return next(new ErrorHandler("Please enter old & new password!", 400));
+
+        const user = await userModel.findById(req.user?._id).select("+password");
+
+        if(user?.password === undefined) return next(new ErrorHandler("Invalid user!", 400));
+
+        const isPasswordMatch = await user?.comparePassword(oldPassword);
+        if(!isPasswordMatch){
+            return next(new ErrorHandler("Invalid old password!", 400));
+        }
+
+        user.password = newPassword;
+        await user.save();
+        await redis.set(req.user?._id as RedisKey, JSON.stringify(user));
+        
+        res.status(201).json({
+            success: true, 
+            user
+        });
+    } catch (error: any) {
+        return next(new ErrorHandler(error.message, 400));
+    }
+})
