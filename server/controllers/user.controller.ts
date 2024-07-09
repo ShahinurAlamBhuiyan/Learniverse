@@ -346,8 +346,6 @@ export const updatePassword = CatchAsyncError(
   }
 );
 
-
-
 interface IUpdateProfilePicture {
   avatar: string;
 }
@@ -362,26 +360,26 @@ export const updateProfilePicture = CatchAsyncError(
 
       if (avatar && user) {
         if (user?.avatar?.public_id) {
-            // deleting old image
+          // deleting old image
           await cloudinary.v2.uploader.destroy(user?.avatar?.public_id);
 
           const myCloud = await cloudinary.v2.uploader.upload(avatar, {
             folder: "avatars",
-            width: 150
+            width: 150,
           });
           user.avatar = {
             public_id: myCloud.public_id,
             url: myCloud.secure_url,
           };
         } else {
-            const myCloud =  await cloudinary.v2.uploader.upload(avatar, {
-                folder: "avatars",
-                width: 150
-           });
-           user.avatar = {
+          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "avatars",
+            width: 150,
+          });
+          user.avatar = {
             public_id: myCloud.public_id,
-            url: myCloud.secure_url
-           }
+            url: myCloud.secure_url,
+          };
         }
       }
 
@@ -390,9 +388,8 @@ export const updateProfilePicture = CatchAsyncError(
 
       res.status(200).json({
         success: true,
-        user
+        user,
       });
-
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
     }
