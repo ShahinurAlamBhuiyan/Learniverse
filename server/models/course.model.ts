@@ -50,13 +50,13 @@ interface ICourse extends Document {
 }
 
 const reviewSchema = new Schema<IReview>({
-  user: Object, 
+  user: Object,
   rating: {
     type: Number,
     default: 0,
   },
   comment: String,
-  commentReplies: [Object]
+  commentReplies: [Object],
 });
 
 const linkSchema = new Schema<ILink>({
@@ -72,7 +72,7 @@ const commentSchema = new Schema<IComment>({
 
 const courseDataSchema = new Schema<ICourseData>({
   title: String,
-  description: String,  
+  description: String,
   videoUrl: String,
   videoSection: String,
   videoLength: Number,
@@ -118,7 +118,7 @@ const courseSchema = new Schema<ICourse>({
     type: String,
     required: true,
   },
-  benefits: [{title: String}],
+  benefits: [{ title: String }],
   prerequisites: [{ title: String }],
   reviews: [reviewSchema],
   courseData: [courseDataSchema],
