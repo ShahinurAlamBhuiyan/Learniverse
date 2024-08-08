@@ -137,3 +137,18 @@ export const updateLayout = CatchAsyncError(
     }
   }
 );
+
+// get layout by type
+export const getLayoutByType = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const layout = await LayoutModel.findOne({ type: req.body.type });
+      res.status(201).json({
+        success: true,
+        layout,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
