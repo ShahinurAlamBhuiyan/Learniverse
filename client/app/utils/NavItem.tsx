@@ -44,17 +44,22 @@ const NavItem: React.FC<Props> = ({ activeItem, isMobile }) => {
                 }
             </div>
             {isMobile && (
-                <div className="800px:hidden mt-5">
-                    <div className="w-full text-center py-6">
-                        {navItemsData.map((item, index) => (
-                            <Link href={"/"} passHref key={index}>
-                                <span
-                                    className={`${activeItem === index ? "dark:text-[#87a39a] text-[crimson]" : "dark:text-white text-black"} text-[18px] px-6 font-Poppins font-[400]`}>
-
-                                </span>
-                            </Link>
-                        ))}
+                <div className="800px:hidden mt-5 flex justify-start flex-col gap-3">
+                    <div className='w-full text-center py-6'>
+                        <Link href={'/'} passHref>
+                            <span className={`text-[25px] font-Poppins font-[500] text-black dark:text-white`}>
+                                Learniverse
+                            </span>
+                        </Link>
                     </div>
+                    {navItemsData.map((item, index) => (
+                        <Link href={"/"} key={index} passHref>
+                            <span
+                                className={`${activeItem === index ? "dark:text-[#87a39a] text-[crimson]" : "dark:text-white text-black"} text-[18px] px-6 font-Poppins font-[400]`}>
+                                {item.name}
+                            </span>
+                        </Link>
+                    ))}
                 </div>
             )
 
