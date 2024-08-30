@@ -1,16 +1,21 @@
 import Link from 'next/link';
 import React, { FC, useState } from 'react'
-import NavItem from '../utils/NavItem';
 import ThemeSwitcher from '../utils/ThemeSwitcher';
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from 'react-icons/hi';
+
+import NavItem from '../utils/NavItem';
+import CustomModal from '../utils/CustomModal'
+import Login from '../component/Auth/Login'
 
 type Props = {
     open: boolean;
     setOpen: (open: boolean) => void;
     activeItem: number;
+    route: string;
+    setRoute: (route: string) => void;
 }
 
-const Header: FC<Props> = ({ activeItem, setOpen }) => {
+const Header: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
     const [active, setActive] = useState(false);
     const [openSidebar, setOpenSidebar] = useState(false);
 
@@ -28,7 +33,7 @@ const Header: FC<Props> = ({ activeItem, setOpen }) => {
         if (e.target.id === "screen") setOpenSidebar(false);
     }
     return (
-        <div className='w-full relative'>
+        <div className='w-full relative' >
             <div
                 className={`${active ?
                     "dark:bg-opacity-50 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black fixed top-0 left-0 w-full h-[80px] z-[80] border-b dark:border-[#ffffff1c] shadow-xl transition duration-500"
@@ -97,6 +102,16 @@ const Header: FC<Props> = ({ activeItem, setOpen }) => {
                     }
                 </div>
             </div>
+            {route === "Login" && (
+                <>
+                    {open && (
+                        <CustomModal open={open} setOpen={setOpen} setRoute={setRoute} activeItem={activeItem} component={Login} />
+                    )}
+                </>
+            )}
+            {route === "Sign-Up" && (
+                <></>
+            )}
         </div>
     )
 }
