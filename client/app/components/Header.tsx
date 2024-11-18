@@ -7,6 +7,7 @@ import NavItem from '../utils/NavItem';
 import CustomModal from '../utils/CustomModal'
 import Login from '../component/Auth/Login'
 import SignUp from '../component/Auth/SignUp';
+import Verification from '../component/Auth/Verification';
 
 type Props = {
     open: boolean;
@@ -125,6 +126,19 @@ const Header: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
                             setRoute={setRoute}
                             activeItem={activeItem}
                             component={SignUp}
+                        />
+                    )}
+                </>
+            )}
+            {route === "Verification" && (
+                <>
+                    {open && (
+                        <CustomModal
+                            open={open}
+                            setOpen={setOpen}
+                            setRoute={setRoute}
+                            activeItem={activeItem}
+                            component={Verification}
                         />
                     )}
                 </>

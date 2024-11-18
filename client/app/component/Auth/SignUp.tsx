@@ -32,7 +32,7 @@ const SignUp: React.FC<Props> = ({ setRoute }) => {
         },
         validationSchema: schema,
         onSubmit: async ({ email, password }) => {
-            console.log(email, password);
+            setRoute("Verification");
         },
     });
 
