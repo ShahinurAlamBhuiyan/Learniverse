@@ -84,10 +84,10 @@ const Login: React.FC<Props> = ({ setRoute }) => {
                             onClick={() => setShow(false)}
                         />
                     )}
-                    {errors.password && touched.password && (
-                        <span className="text-red-500 pt-2 block">{errors.password}</span>
-                    )}
                 </div>
+                {errors.password && touched.password && (
+                    <span className="text-red-500 pt-2 block">{errors.password}</span>
+                )}
 
                 <div className="w-full mt-5">
                     <input type="submit" value="Login" className={`${styles.button}`} />

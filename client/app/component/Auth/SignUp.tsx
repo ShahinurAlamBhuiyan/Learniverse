@@ -40,8 +40,26 @@ const SignUp: React.FC<Props> = ({ setRoute }) => {
 
     return (
         <div className="w-full">
-            <h1 className={`${styles.title}`}>Login with Learniverse</h1>
+            <h1 className={`${styles.title}`}>Join to Learniverse</h1>
             <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label htmlFor="name" className={`${styles.label}`}>
+                        Enter your Name
+                    </label>
+                    <input
+                        type="text"
+                        name=""
+                        value={values.name}
+                        onChange={handleChange}
+                        id="name"
+                        placeholder="John Doe"
+                        className={`${errors.name && touched.name && "border-red-500"} ${styles.input
+                            }`}
+                    />
+                    {errors.name && touched.name && (
+                        <span className="text-red-500 pt-2 block">{errors.name}</span>
+                    )}
+                </div>
                 <label htmlFor="email" className={`${styles.label}`}>
                     Enter your Email
                 </label>
@@ -86,13 +104,13 @@ const SignUp: React.FC<Props> = ({ setRoute }) => {
                             onClick={() => setShow(false)}
                         />
                     )}
-                    {errors.password && touched.password && (
-                        <span className="text-red-500 pt-2 block">{errors.password}</span>
-                    )}
                 </div>
+                {errors.password && touched.password && (
+                    <span className="text-red-500 pt-2 block">{errors.password}</span>
+                )}
 
                 <div className="w-full mt-5">
-                    <input type="submit" value="Login" className={`${styles.button}`} />
+                    <input type="submit" value="Sign Up" className={`${styles.button}`} />
                 </div>
 
                 <br />
@@ -110,7 +128,7 @@ const SignUp: React.FC<Props> = ({ setRoute }) => {
                     Already have an account?{" "}
                     <span
                         className="text-[#2190ff] pl-1 cursor-pointer"
-                        onClick={() => setRoute("Sign-Up")}
+                        onClick={() => setRoute("Login")}
                     >
                         Sign in
                     </span>
