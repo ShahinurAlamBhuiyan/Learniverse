@@ -1,5 +1,5 @@
 'use client'
-import Heading from '@/app/utils/Heading'
+import Heading from '../app/utils/Heading'
 import React, { FC, useState } from 'react'
 import Header from './components/Header'
 import Hero from './components/Route/Hero'
