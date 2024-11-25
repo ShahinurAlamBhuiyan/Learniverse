@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -9,9 +9,12 @@ import {
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { styles } from "../../../app/styles/style";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import toast from "react-hot-toast";
 
 type Props = {
     setRoute: (route: string) => void;
+    setOpen: (open: boolean) => void;
 };
 
 const schema = Yup.object().shape({
@@ -21,7 +24,9 @@ const schema = Yup.object().shape({
     password: Yup.string().required("Please enter your password!").min(6),
 });
 
-const Login: React.FC<Props> = ({ setRoute }) => {
+const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
+    const [login, { isSuccess, data, error }] = useLoginMutation();
+
     const [show, setShow] = useState(false);
     const formik = useFormik({
         initialValues: {
@@ -30,9 +35,22 @@ const Login: React.FC<Props> = ({ setRoute }) => {
         },
         validationSchema: schema,
         onSubmit: async ({ email, password }) => {
-            console.log(email, password);
+            await login({ email, password })
         },
     });
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Login successful");
+            setOpen(false);
+        }
+        if (error) {
+            if ("data" in error) {
+                const errorData = error as any;
+                toast.error(errorData.data.message);
+            }
+        }
+    }, [isSuccess, error]);
 
     const { errors, touched, values, handleChange, handleSubmit } = formik;
 
@@ -100,11 +118,11 @@ const Login: React.FC<Props> = ({ setRoute }) => {
 
                 <div className="flex items-center justify-center my-3">
                     <FcGoogle size={30} className="cursor-pointer mr-2" />
-                    <AiFillGithub size={30} className="cursor-pointer ml-2" />
+                    <AiFillGithub size={30} className="cursor-pointer ml-2 text-black dark:text-white" />
                 </div>
 
 
-                <h5 className="text-center pt-4 font-Poppins text-[14px]">
+                <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
                     Not have any account?{" "}
                     <span
                         className="text-[#2190ff] pl-1 cursor-pointer"
