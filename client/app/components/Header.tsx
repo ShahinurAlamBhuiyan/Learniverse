@@ -8,6 +8,9 @@ import CustomModal from '../utils/CustomModal'
 import Login from '../component/Auth/Login'
 import SignUp from '../component/Auth/SignUp';
 import Verification from '../component/Auth/Verification';
+import { useSelector } from 'react-redux';
+import Image from 'next/image';
+import avatar from '../../public/assests/avatar.png'
 
 type Props = {
     open: boolean;
@@ -20,6 +23,7 @@ type Props = {
 const Header: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
     const [active, setActive] = useState(false);
     const [openSidebar, setOpenSidebar] = useState(false);
+    const { user } = useSelector((state: any) => state.auth)
 
     if (typeof window !== "undefined") {
         window.addEventListener("scroll", () => {
@@ -66,11 +70,21 @@ const Header: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
                                     onClick={() => setOpenSidebar(true)}
                                 />
                             </div>
-                            <HiOutlineUserCircle
-                                size={25}
-                                className='hidden 800px:block cursor-pointer dark:text-white text-black'
-                                onClick={() => setOpen(true)}
-                            />
+                            {user ? (
+                                <Link href={"/profile"}>
+                                    <Image
+                                        className='w-[30px] h-[30px] rounded-full'
+                                        src={user.avatar ? user.avatar : avatar}
+                                        alt=''
+                                    />
+                                </Link>
+                            ) : (
+                                <HiOutlineUserCircle
+                                    size={25}
+                                    className='hidden 800px:block cursor-pointer dark:text-white text-black'
+                                    onClick={() => setOpen(true)}
+                                />
+                            )}
                         </div>
                     </div>
 
