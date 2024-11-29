@@ -25,8 +25,10 @@ const SideBarProfile: FC<Props> = ({ user, active, avatar, setActive, logOutHand
             >
                 <Image
                     className="w-[20px] h-[20px] 800px:w-[30px] 800px:h-[30px] cursor-pointer rounded-full"
-                    src={user.avatar || avatar ? user.avatar || avatar : avatarDefault}
+                    src={user.avatar || avatar ? user.avatar.url || avatar : avatarDefault}
                     alt="avatar"
+                    width={20}
+                    height={20}
                 />
                 <h5 className="pl-2 800px:block hidden font-Poppins text-black dark:text-white">My Account</h5>
             </div>

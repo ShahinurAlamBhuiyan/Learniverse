@@ -1,9 +1,11 @@
 'use client'
-import { styles } from "@/app/styles/style"
+import { styles } from "../../..//app/styles/style"
 import Image from "next/image"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { AiOutlineCamera } from "react-icons/ai"
 import avatarIcon from '../../../public/assests/avatar.png'
+import { useUpdateAvatarMutation } from "@/redux/features/user/userApi"
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice"
 
 type Props = {
     avatar: string | null;
@@ -11,10 +13,31 @@ type Props = {
 }
 const UserProfile: FC<Props> = ({ avatar, user }) => {
     const [name, setName] = useState(user && user.name);
+    const [updateAvatar, { isSuccess, error }] = useUpdateAvatarMutation();
+    const [loadUser, setLoadUser] = useState(false);
+    const { } = useLoadUserQuery(undefined, { skip: loadUser ? false : true });
 
     const imageHandler = async (e: any) => {
-        console.log('first')
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+            if (fileReader.readyState === 2) {
+                const avatar = fileReader.result;
+                updateAvatar(
+                    avatar
+                )
+            }
+        };
+        fileReader.readAsDataURL(e.target.files[0]);
     }
+
+    useEffect(() => {
+        if (isSuccess) {
+            setLoadUser(true);
+        }
+        if (error) {
+            console.log(error)
+        }
+    }, [isSuccess, error])
 
     const handleSubmit = async (e: any) => {
         console.log('submit')
@@ -28,6 +51,8 @@ const UserProfile: FC<Props> = ({ avatar, user }) => {
                         src={user.avatar || avatar ? user.avatar.url || avatar : avatarIcon}
                         alt="User Profile"
                         className="w-[120px] h-[120px] cursor-pointer border-[3px] border-[#37a39a] rounded-full"
+                        width={120}
+                        height={120}
                     />
                     <input
                         type="file"
@@ -60,7 +85,7 @@ const UserProfile: FC<Props> = ({ avatar, user }) => {
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </div>
-                        <div>
+                        <div className="mt-2">
                             <label className="block pb-2">
                                 Email Address
                             </label>

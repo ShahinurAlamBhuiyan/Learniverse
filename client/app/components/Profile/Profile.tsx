@@ -2,7 +2,7 @@
 import { FC, useState } from "react"
 
 import SideBarProfile from "./SideBarProfile"
-import { useLogOutQuery } from "@/redux/features/auth/authApi";
+import { useLogOutQuery } from "../../../redux/features/auth/authApi";
 import { signOut } from "next-auth/react";
 import UserProfile from './UserProfile'
 
