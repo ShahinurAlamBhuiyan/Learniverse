@@ -11,10 +11,10 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     editProfile: builder.mutation({
-      query: ({ name, email }) => ({
+      query: (name) => ({
         url: "update-user-info",
         method: "PUT",
-        body: { name, email },
+        body: name,
         credentials: "include" as const,
       }),
     }),

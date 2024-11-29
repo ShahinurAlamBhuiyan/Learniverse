@@ -64,7 +64,6 @@ const Header: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
     const handleClose = (e: any) => {
         if (e.target.id === "screen") setOpenSidebar(false);
     }
-    console.log('first')
     return (
         <div className='w-full relative' >
             <div
