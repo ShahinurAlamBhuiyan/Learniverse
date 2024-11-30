@@ -5,6 +5,8 @@ import avatarDefault from '../../../public/assests/avatar.png'
 import { RiLockPasswordLine } from "react-icons/ri";
 import { SiCoursera } from "react-icons/si";
 import { AiOutlineLogout } from "react-icons/ai";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import Link from "next/link";
 
 type Props = {
     user: any;
@@ -37,7 +39,7 @@ const SideBarProfile: FC<Props> = ({ user, active, avatar, setActive, logOutHand
                 className={`w-full flex items-center px-3 py-4 cursor-pointer ${active === 2 ? "bg-gray-100 dark:bg-slate-800" : "bg-transparent"}`}
                 onClick={() => setActive(2)}
             >
-                <RiLockPasswordLine fill={theme === "dark" ? "#fff" : "#000"} size={20} />
+                <RiLockPasswordLine className="dark:text-white text-black" size={20} />
                 <h5 className="pl-2 800px:block hidden font-Poppins text-black dark:text-white">Change Password</h5>
             </div>
 
@@ -45,15 +47,26 @@ const SideBarProfile: FC<Props> = ({ user, active, avatar, setActive, logOutHand
                 className={`w-full flex items-center px-3 py-4 cursor-pointer ${active === 3 ? "bg-gray-100 dark:bg-slate-800" : "bg-transparent"}`}
                 onClick={() => setActive(3)}
             >
-                <SiCoursera fill={theme === "dark" ? "#fff" : "#000"} size={20} />
+                <SiCoursera className="dark:text-white text-black" size={20} />
                 <h5 className="pl-2 800px:block hidden font-Poppins text-black dark:text-white">Enrolled Courses</h5>
             </div>
+
+            {user.role === "admin" &&
+                (
+                    <Link
+                        className={`w-full flex items-center px-3 py-4 cursor-pointer ${active === 6 ? "bg-gray-100 dark:bg-slate-800" : "bg-transparent"}`}
+                        href={'/admin'}
+                    >
+                        <MdOutlineAdminPanelSettings className="dark:text-white text-black" size={20} />
+                        <h5 className="pl-2 800px:block hidden font-Poppins text-black dark:text-white">Admin Dashboard</h5>
+                    </Link>
+                )}
 
             <div
                 className={`w-full flex items-center px-3 py-4 cursor-pointer ${active === 4 ? "bg-gray-100 dark:bg-slate-800" : "bg-transparent"}`}
                 onClick={() => logOutHandler()}
             >
-                <AiOutlineLogout size={20} fill={theme === "dark" ? "#fff" : "#000"} />
+                <AiOutlineLogout size={20} className="dark:text-white text-black" />
                 <h5 className="pl-2 800px:block hidden font-Poppins text-black dark:text-white">Log Out</h5>
             </div>
         </div>
