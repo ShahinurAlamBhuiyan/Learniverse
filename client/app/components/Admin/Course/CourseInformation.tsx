@@ -194,6 +194,16 @@ const CourseInformation: FC<Props> = ({ courseInfo, setCourseInfo, active, setAc
                         )}
                     </label>
                 </div>
+                <br />
+                <div className="w-full flex items-center justify-end">
+                    <input
+                        type="submit"
+                        value="Next"
+                        className="w-full 800px:w-[180px] h-[40px] bg-[#37a39a] text-center text-white rounded mt-8 cursor-pointer"
+                    />
+                </div>
+                <br />
+                <br />
             </form>
         </div>
     )
