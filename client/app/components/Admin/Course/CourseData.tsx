@@ -1,6 +1,7 @@
-import { styles } from "@/app/styles/style";
+import { styles } from "../../../../app/styles/style";
 import { FC } from "react";
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import toast from "react-hot-toast";
 
 type Props = {
     benefits: { title: string }[];
@@ -31,8 +32,22 @@ const CourseData: FC<Props> = ({ benefits, setBenefits, prerequisites, setPrereq
     const handleAddPrerequisite = () => {
         setPrerequisites([...prerequisites, { title: "" }]);
     }
+
+    // Buttons
+    const prevButton = () => {
+        setActive(active - 1)
+    }
+
+    const handleOptions = () => {
+        if (benefits[benefits.length - 1]?.title !== "" && prerequisites[prerequisites.length - 1]?.title !== "") {
+            setActive(active + 1)
+        } else {
+            toast.error("Please fill the fields for got to next!")
+        }
+    }
     return (
         <div className="w-[80%] m-auto mt-24 block">
+            {/* Benefits */}
             <div>
                 <label className={`${styles.label} text-[20px]`}>
                     What are the benefits for students in this course?
@@ -59,6 +74,7 @@ const CourseData: FC<Props> = ({ benefits, setBenefits, prerequisites, setPrereq
                     className="dark:text-white text-black"
                 />
             </div>
+            {/* Prerequisites */}
             <div>
                 <label className={`${styles.label} text-[20px]`}>
                     What are the prerequisites for students in this course?
@@ -84,6 +100,22 @@ const CourseData: FC<Props> = ({ benefits, setBenefits, prerequisites, setPrereq
                     onClick={handleAddPrerequisite}
                     className="dark:text-white text-black"
                 />
+            </div>
+
+            {/* Buttons */}
+            <div className="w-full flex items-center justify-between">
+                <div
+                    className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-white rounded mt-8 cursor-pointer"
+                    onClick={() => prevButton()}
+                >
+                    Prev
+                </div>
+                <div
+                    className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-white rounded mt-8 cursor-pointer"
+                    onClick={() => handleOptions()}
+                >
+                    Next
+                </div>
             </div>
         </div>
     )
