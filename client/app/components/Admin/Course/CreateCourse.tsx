@@ -7,7 +7,7 @@ import CourseContent from './CourseContent'
 
 type Props = {}
 const CreateCourse = (props: Props) => {
-    const [active, setActive] = useState(2)
+    const [active, setActive] = useState(0)
     const [courseData, setCourseData] = useState({})
     const [benefits, setBenefits] = useState([{ title: "" }])
     const [prerequisites, setPrerequisites] = useState([{ title: "" }])
@@ -37,7 +37,45 @@ const CreateCourse = (props: Props) => {
         }
     ])
 
-    const handleSubmit = async () => { }
+    const handleSubmit = async () => {
+        // format benefits array
+        const formattedBenefits = benefits.map((benefit) => ({ title: benefit.title }));
+
+        // format prerequisites
+        const formattedPrerequisites = prerequisites.map((prereq) => ({ title: prereq.title }));
+
+        // format course content array
+        const formattedCourseContent = courseContentData.map((courseContent) => ({
+            title: courseContent.title,
+            videoUrl: courseContent.videoUrl,
+            description: courseContent.description,
+            videoSection: courseContent.videoSection,
+            links: courseContent.links.map((link) => ({
+                title: link.title,
+                url: link.url
+            })),
+            suggestion: courseContent.suggestion
+        }));
+
+        // prepare data object
+        const data = {
+            name: courseInfo.name,
+            description: courseInfo.description,
+            price: courseInfo.price,
+            estimatedPrice: courseInfo.estimatedPrice,
+            tags: courseInfo.tags,
+            thumbnail: courseInfo.thumbnail,
+            level: courseInfo.level,
+            demoUrl: courseInfo.demoUrl,
+            totalVideos: courseContentData.length,
+            benefits: formattedBenefits,
+            prerequisites: formattedPrerequisites,
+            courseContent: formattedCourseContent
+        };
+        setCourseData(data);
+    }
+
+    console.log(courseData)
 
     return (
         <div className="w-full flex min-h-screen">
