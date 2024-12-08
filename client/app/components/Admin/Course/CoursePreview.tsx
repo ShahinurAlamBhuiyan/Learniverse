@@ -22,7 +22,7 @@ const CoursePreview: FC<Props> = ({ active, setActive, courseData, handleCourseC
     const createCourse = () => { handleCourseCreate(); }
 
     return (
-        <div className="w-[90%] m-auto py-5 mb-5">
+        <div className="w-[90%] m-auto py-5 mb-5 text-black dark:text-white">
             <div className="w-full relative">
                 <div className="w-full mt-10">
                     <CoursePlayer
@@ -46,7 +46,7 @@ const CoursePreview: FC<Props> = ({ active, setActive, courseData, handleCourseC
 
                 <div className="flex items-center">
                     <div
-                        className={`${styles.button} !w-[180px] my-3 font-Poppins !bg-[crimson] cursor-not-allowed`}
+                        className={`${styles.button} !w-[180px] my-3 font-Poppins !bg-[crimson] cursor-not-allowed text-white`}
                     >
                         Buy Now {courseData?.price}$
                     </div>
@@ -61,7 +61,7 @@ const CoursePreview: FC<Props> = ({ active, setActive, courseData, handleCourseC
                         className={`${styles.input} 1100px:w-[60%] 1500px:!w-[50%] ml-3 !mt-0`}
                     />
                     <div
-                        className={`${styles.button} !w-[120px] ml-4 font-Poppins cursor-pointer`}
+                        className={`${styles.button} !w-[120px] ml-4 font-Poppins cursor-pointer text-white`}
                     >
                         Apply
                     </div>
