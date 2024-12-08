@@ -22,7 +22,7 @@ courseRouter.post(
   authorizeRoles("admin"),
   uploadCourse
 );
-courseRouter.post("/getVdoCipherOTP", generateVideoUrl);
+courseRouter.post("/get-video-cipher-otp", generateVideoUrl);
 
 courseRouter.get("/get-course/:id", getSingleCourse);
 courseRouter.get("/get-courses", getAllCourses);
