@@ -1,3 +1,4 @@
+'use client'
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Button } from '@mui/material';
 import { AiOutlineDelete, AiOutlineMail } from 'react-icons/ai';
@@ -6,9 +7,14 @@ import { format } from 'timeago.js'
 
 import Loader from '../../Loader/Loader';
 import { useGetAllUsersQuery } from '../../../../redux/features/user/userApi';
+import { FC, useState } from 'react';
+import { styles } from '@/app/styles/style';
 
-type Props = {}
-const AllUsers = (props: Props) => {
+type Props = {
+    isTeam: boolean;
+}
+const AllUsers: FC<Props> = ({ isTeam }) => {
+    const [active, setActive] = useState(false)
     const { theme, setTheme } = useTheme();
     const { isLoading, data, error } = useGetAllUsersQuery({});
 
@@ -60,7 +66,20 @@ const AllUsers = (props: Props) => {
 
 
     const rows: any = []
-    {
+
+    if (isTeam) {
+        const newData = data && data.users.filter((item: any) => item.role === 'admin');
+        newData && newData.forEach((item: any) => {
+            rows.push({
+                id: item._id,
+                name: item.name,
+                email: item.email,
+                role: item.role,
+                courses: item.courses.length,
+                created_at: format(item.createdAt)
+            })
+        });
+    } else {
         data && data.users.forEach((item: any) => {
             rows.push({
                 id: item._id,
@@ -72,13 +91,29 @@ const AllUsers = (props: Props) => {
             })
         });
     }
+
     return (
         <div className='mt-[120px]'>
-            <Box m='20px'>
-                {
-                    isLoading ? (
-                        <Loader />
-                    ) : (
+            {
+                isLoading ? (
+                    <Loader />
+                ) : (
+                    <Box m='20px'>
+                        {
+                            isTeam &&
+                            (
+                                <div className="w-full flex justify-end">
+                                    {/* <div className={`${styles.button} !h-[35px] !w-[220px] !bg-[#57c7a3] !font-[400]`}>
+                                Add New Member
+                            </div> */}
+                                    <div
+                                        className={`w-[200px] h-[40px] bg-transparent border border-[#37a39a] dark:text-[#fff] text-black rounded-[3px] flex justify-center items-center cursor-pointer hover:bg-[#37a39a] hover:text-white`}
+                                        onClick={() => setActive(!active)}
+                                    >
+                                        Add New Member
+                                    </div>
+                                </div>
+                            )}
                         <Box
                             m='40px 0 0 0'
                             height='80vh'
@@ -149,10 +184,10 @@ const AllUsers = (props: Props) => {
                                 columns={columns}
                             />
                         </Box>
-                    )
-                }
+                    </Box>
+                )
+            }
 
-            </Box>
         </div>
     )
 }
