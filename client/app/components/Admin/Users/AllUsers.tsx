@@ -86,7 +86,8 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
                         <Button onClick={() => {
                             setOpen(!open);
                             setUserId(params.row.id);
-                        }} disabled={isCurrentUser}>
+                        }} disabled={isCurrentUser}
+                        >
                             {
                                 isCurrentUser ? (
                                     <TiDeleteOutline
