@@ -5,17 +5,19 @@ import { useTheme } from 'next-themes';
 import { FiEdit2 } from 'react-icons/fi'
 import { format } from 'timeago.js'
 
-import { useGetAllCoursesQuery } from '../../../../redux/features/courses/coursesApi';
+import { useDeleteCourseMutation, useGetAllCoursesQuery } from '../../../../redux/features/courses/coursesApi';
 import Loader from '../../Loader/Loader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styles } from '../../../../app/styles/style';
+import toast from 'react-hot-toast';
 
 type Props = {}
 const AllCourses = (props: Props) => {
     const { theme, setTheme } = useTheme();
     const [open, setOpen] = useState(false);
     const [courseId, setCourseId] = useState('');
-    const { isLoading, data, error } = useGetAllCoursesQuery({});
+    const [deleteCourse, { isSuccess, error }] = useDeleteCourseMutation();
+    const { isLoading, data, refetch } = useGetAllCoursesQuery({}, { refetchOnMountOrArgChange: true });
 
     const columns = [
         { field: "id", headerName: "ID", flex: 0.5 },
@@ -78,8 +80,26 @@ const AllCourses = (props: Props) => {
         });
     }
 
-    const handleDelete = () => {
-        console.log('first delete')
+
+    // showing toast
+    useEffect(() => {
+        if (isSuccess) {
+            setOpen(false);
+            refetch();
+            toast.success("Course deleted successfully!");
+        }
+        if (error) {
+            if ("data" in error) {
+                const errorMessage = error as any;
+                toast.error(errorMessage.data.message);
+            }
+        }
+    }, [isSuccess, error])
+
+    // hitting delete api when clicked
+    const handleDelete = async () => {
+        const id = courseId;
+        await deleteCourse(id);
     }
     return (
         <div className='mt-[120px]'>
