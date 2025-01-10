@@ -198,7 +198,7 @@ const AllCourses = (props: Props) => {
                                 >
                                     <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 rounded-[8px] shadow p-4 outline-none">
                                         <h1 className={`${styles.title}`}>
-                                            Are you sure you want to delete this course?
+                                            Are you sure you want to remove this course?
                                         </h1>
                                         <div className="flex w-full items-center justify-between mb-6 mt-4">
                                             <div
