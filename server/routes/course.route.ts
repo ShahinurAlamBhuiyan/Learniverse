@@ -27,7 +27,15 @@ courseRouter.post(
 courseRouter.post("/get-video-cipher-otp", generateVideoUrl);
 
 courseRouter.get("/get-course/:id", getSingleCourse);
+
 courseRouter.get("/get-courses", getAllCourses);
+
+courseRouter.get(
+  "/get-admin-all-courses",
+  isAuthenticated,
+  authorizeRoles("admin"),
+  getAllCoursesAdmin
+);
 courseRouter.get(
   "/get-course-content/:id",
   updateAccessToken,
