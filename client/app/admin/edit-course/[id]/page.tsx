@@ -7,7 +7,8 @@ import EditCourse from '../../../components/Admin/Course/EditCourse'
 import DashboardHeader from "../../../../app/components/Admin/DashboardHeader"
 
 type Props = {}
-const page: FC<Props> = () => {
+const page: FC<Props> = ({ params }: any) => {
+    const id = params?.id;
     return (
         <div>
             <AdminProtected>
@@ -22,8 +23,7 @@ const page: FC<Props> = () => {
                     </div>
                     <div className="w-[85%]">
                         <DashboardHeader />
-                        {/* <CreateCourse /> */}
-                        <EditCourse />
+                        <EditCourse id={id} />
                     </div>
                 </div>
             </AdminProtected>
