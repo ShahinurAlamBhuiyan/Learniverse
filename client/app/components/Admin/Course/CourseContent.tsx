@@ -111,7 +111,7 @@ const CourseContent: FC<Props> = ({ active, setActive, courseContentData, setCou
                 {courseContentData?.map((item: any, index: number) => {
                     const showSectionInput = index === 0 || item.videoSection !== courseContentData[index - 1].videoSection;
                     return (
-                        <>
+                        <div key={index}>
                             <div
                                 className={`w-full bg-[#cdc8c817] p-4 ${showSectionInput ? 'mt-10' : 'mb-0'}`}
                             >
@@ -282,7 +282,7 @@ const CourseContent: FC<Props> = ({ active, setActive, courseContentData, setCou
                                     </div>
                                 )}
                             </div>
-                        </>
+                        </div>
                     )
                 })}
                 <br />

@@ -16,7 +16,7 @@ const CreateCourse = (props: Props) => {
     useEffect(() => {
         if (isSuccess) {
             toast.success("Course created successfully!");
-            redirect("/admin/all-courses");
+            redirect("/admin/courses");
         }
         if (error) {
             if ('data' in error) {
@@ -134,6 +134,7 @@ const CreateCourse = (props: Props) => {
                         setActive={setActive}
                         courseData={courseData}
                         handleCourseCreate={handleCourseCreate}
+                        isEdit={false}
                     />)}
             </div>
             <div className="w-[20%] mt-[100px] h-screen fixed z-[-1] top-18 right-0">

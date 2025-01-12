@@ -5,7 +5,7 @@ import CourseOptions from './CourseOptions'
 import CourseData from './CourseData'
 import CourseContent from './CourseContent'
 import CoursePreview from './CoursePreview'
-import { useGetAllCoursesQuery } from "../../../../redux/features/courses/coursesApi"
+import { useEditCourseMutation, useGetAllCoursesQuery } from "../../../../redux/features/courses/coursesApi"
 import toast from "react-hot-toast"
 import { redirect } from "next/navigation"
 
@@ -13,10 +13,16 @@ type Props = {
     id: string;
 }
 const EditCourse: FC<Props> = ({ id }) => {
-    const { isLoading, data, refetch } = useGetAllCoursesQuery({}, { refetchOnMountOrArgChange: true });
 
+    // getting all data for filter the selected course
+    const { data } = useGetAllCoursesQuery({}, { refetchOnMountOrArgChange: true });
     const editCourseData = data && data.courses.find((i: any) => i._id === id);
 
+    // updating selected course
+    const [editCourse, { isSuccess, error }] = useEditCourseMutation();
+
+
+    // for adding selected course data to the input field
     useEffect(() => {
         if (editCourseData) {
             setCourseInfo({
@@ -34,6 +40,21 @@ const EditCourse: FC<Props> = ({ id }) => {
             setCourseContentData(editCourseData.courseData);
         }
     }, [editCourseData]);
+
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Course updated successfully!");
+            redirect("/admin/courses");
+        }
+
+        if (error) {
+            if ("data" in error) {
+                const errorMessage = error as any;
+                toast.error(errorMessage.data.message);
+            }
+        }
+    }, [isSuccess, error]);
 
     const [active, setActive] = useState(0)
     const [courseData, setCourseData] = useState({})
@@ -103,11 +124,10 @@ const EditCourse: FC<Props> = ({ id }) => {
         setCourseData(data);
     }
 
+    // for edit course...not changed the function name yet...
     const handleCourseCreate = async (e: any) => {
         const data = courseData;
-        if (!isLoading) {
-            // await createCourse(data);
-        }
+        await editCourse({ id: editCourseData?._id, data });
     }
 
     return (
@@ -143,6 +163,7 @@ const EditCourse: FC<Props> = ({ id }) => {
                         setActive={setActive}
                         courseData={courseData}
                         handleCourseCreate={handleCourseCreate}
+                        isEdit={true}
                     />)}
             </div>
             <div className="w-[20%] mt-[100px] h-screen fixed z-[-1] top-18 right-0">
