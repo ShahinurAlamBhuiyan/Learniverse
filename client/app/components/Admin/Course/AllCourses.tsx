@@ -10,6 +10,7 @@ import Loader from '../../Loader/Loader';
 import { useEffect, useState } from 'react';
 import { styles } from '../../../../app/styles/style';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 type Props = {}
 const AllCourses = (props: Props) => {
@@ -32,12 +33,12 @@ const AllCourses = (props: Props) => {
             renderCell: (params: any) => {
                 return (
                     <>
-                        <Button>
+                        <Link href={`/admin/edit-course/${params.row.id}`}>
                             <FiEdit2
-                                className='dark:text-white text-black'
+                                className='dark:text-white text-black mt-3'
                                 size={20}
                             />
-                        </Button>
+                        </Link>
                     </>
                 )
             }
