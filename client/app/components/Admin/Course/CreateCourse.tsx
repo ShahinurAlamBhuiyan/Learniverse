@@ -71,6 +71,7 @@ const CreateCourse = (props: Props) => {
             videoUrl: courseContent.videoUrl,
             description: courseContent.description,
             videoSection: courseContent.videoSection,
+            videoLength: courseContent.videoLength,
             links: courseContent.links.map((link) => ({
                 title: link.title,
                 url: link.url
@@ -82,6 +83,7 @@ const CreateCourse = (props: Props) => {
         const data = {
             name: courseInfo.name,
             description: courseInfo.description,
+            categories: courseInfo.categories,
             price: courseInfo.price,
             estimatedPrice: courseInfo.estimatedPrice,
             tags: courseInfo.tags,
@@ -102,6 +104,7 @@ const CreateCourse = (props: Props) => {
             await createCourse(data);
         }
     }
+    console.log(courseData)
 
     return (
         <div className="w-full flex min-h-screen">
