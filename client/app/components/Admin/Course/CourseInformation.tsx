@@ -1,6 +1,7 @@
 'use client'
+import { useGetHeroDataQuery } from "../../../../redux/features/layout/layoutApi";
 import { styles } from "../../../../app/styles/style";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 type Props = {
     courseInfo: any;
@@ -10,6 +11,14 @@ type Props = {
 }
 const CourseInformation: FC<Props> = ({ courseInfo, setCourseInfo, active, setActive }) => {
     const [dragging, setDragging] = useState(false);
+    const [categories, setCategories] = useState<any[]>([]);
+    const { data, isLoading } = useGetHeroDataQuery("Categories");
+    useEffect(() => {
+        if (data) {
+            setCategories(data.layout.categories)
+        }
+    }, [data])
+
     const handleSubmit = (e: any) => {
         e.preventDefault();
         setActive(active + 1);
@@ -119,20 +128,39 @@ const CourseInformation: FC<Props> = ({ courseInfo, setCourseInfo, active, setAc
                     </div>
                 </div>
                 <br />
-                <div>
-                    <label className={`${styles.label}`}>
-                        Course Tags
-                    </label>
-                    <input
-                        className={`${styles.input}`}
-                        type="text"
-                        name=""
-                        id="tags"
-                        placeholder="MERN, Next 15, Socket.io, tailwindCss, LMS"
-                        required
-                        value={courseInfo.tags}
-                        onChange={(e: any) => setCourseInfo({ ...courseInfo, tags: e.target.value })}
-                    />
+                <div className="w-full flex justify-between">
+                    <div className="w-[45%]">
+                        <label className={`${styles.label}`}>
+                            Course Tags
+                        </label>
+                        <input
+                            className={`${styles.input}`}
+                            type="text"
+                            name=""
+                            id="tags"
+                            placeholder="MERN, Next 15, Socket.io, tailwindCss, LMS"
+                            required
+                            value={courseInfo.tags}
+                            onChange={(e: any) => setCourseInfo({ ...courseInfo, tags: e.target.value })}
+                        />
+                    </div>
+                    <div className="w-[50%]">
+                        <label className={`${styles.label} w-[50%]`}>
+                            Course Categories
+                        </label>
+                        <select
+                            className={`${styles.input}`}
+                            value={courseInfo.categories}
+                            onChange={(e: any) => setCourseInfo({ ...courseInfo, categories: e.target.value })}
+                        >
+                            <option value="">Select Category</option>
+                            {categories.map((item: any) => (
+                                <option value={item._id} key={item._id}>
+                                    {item.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
                 <br />
                 <div className="w-full flex justify-between">
