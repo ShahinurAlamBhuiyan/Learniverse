@@ -44,7 +44,7 @@ const OrdersAnalytics: FC<Props> = ({ isDashboard }) => {
             ) : (
                 <div className={`${isDashboard ? "h-[30vh]" : "h-screen"}`}>
                     <div className={`${isDashboard ? "mt-[0px] pl-[40px] mb-2" : "mt-[50px]"}`}>
-                        <h1 className={`${styles.title} ${isDashboard && "!text-[20px] px-5 !text-start"}`}>
+                        <h1 className={`${styles.title} ${!isDashboard && "!text-[20px] px-5 !text-start"}`}>
                             Orders Analytics
                         </h1>
                         {

@@ -18,7 +18,7 @@ const page: FC<Props> = (props) => {
                     keywords='Programming, MERN, Redux, Development, Machine Learning'
                 />
                 <div className="flex justify-center">
-                    <div className=" 1500px:w-[16%] w-1/5">
+                    <div className="1500px:w-[16%] w-1/5">
                         <AdminSidebar />
                     </div>
                     <div className="w-[80%]">
