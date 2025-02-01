@@ -42,7 +42,7 @@ const CircularProgressWithLabel: FC<Props> = ({ open, value }) => {
 const DashboardWidgets: FC<Props> = ({ open }) => {
     return (
         <div className="mt-[30px] min-h-screen">
-            <div className="grid grid-cols-[75%, 25%]">
+            <div className="grid grid-cols-[70%_25%]">
                 <div className="p-8">
                     <UsersAnalytics isDashboard={true} />
                 </div>
