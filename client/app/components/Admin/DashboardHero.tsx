@@ -1,9 +1,17 @@
+import { FC, useState } from 'react';
 import DashboardHeader from './DashboardHeader'
-type Props = {}
-const DashboardHero = (props: Props) => {
+import DashboardWidgets from '../../components/Admin/Widgets/DashboardWidgets'
+type Props = {
+    isDashboard?: boolean;
+}
+const DashboardHero: FC<Props> = ({ isDashboard }) => {
+    const [open, setOpen] = useState(false);
     return (
         <div>
-            <DashboardHeader />
+            <DashboardHeader open={open} setOpen={setOpen} />
+            {isDashboard && (
+                <DashboardWidgets open={open} />
+            )}
         </div>
     )
 }
