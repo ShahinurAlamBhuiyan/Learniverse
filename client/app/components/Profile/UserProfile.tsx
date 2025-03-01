@@ -3,7 +3,7 @@ import { styles } from "../../..//app/styles/style"
 import Image from "next/image"
 import { FC, useEffect, useState } from "react"
 import { AiOutlineCamera } from "react-icons/ai"
-import avatarIcon from '../../../public/assests/avatar.png'
+import avatarIcon from '../../../public/assets/avatar.png'
 import { useEditProfileMutation, useUpdateAvatarMutation } from "../../../redux/features/user/userApi"
 import { useLoadUserQuery } from "../../../redux/features/api/apiSlice"
 import toast from "react-hot-toast"

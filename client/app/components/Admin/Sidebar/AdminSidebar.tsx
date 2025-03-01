@@ -21,7 +21,7 @@ import {
     SettingsIcon,
     ExitToAppIcon
 } from "./Icon";
-import avatarDefault from '../../../../public/assests/avatar.png'
+import avatarDefault from '../../../../public/assets/avatar.png'
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";

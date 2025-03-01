@@ -48,17 +48,17 @@ const Hero: React.FC<Props> = (props) => {
                 <br />
                 <div className='1500px:w-[55%] 1100px:w-[78%] w-[90%] flex items-center'>
                     <Image
-                        src={require("../../../public/assests/client-1.jpg")}
+                        src={require("../../../public/assets/client-1.jpg")}
                         alt='client-1'
                         className='rounded-full'
                     />
                     <Image
-                        src={require("../../../public/assests/client-2.jpg")}
+                        src={require("../../../public/assets/client-2.jpg")}
                         alt='client-2'
                         className='rounded-full ml-[-20px]'
                     />
                     <Image
-                        src={require("../../../public/assests/client-3.jpg")}
+                        src={require("../../../public/assets/client-3.jpg")}
                         alt='client-3'
                         className='rounded-full ml-[-20px]'
                     />
