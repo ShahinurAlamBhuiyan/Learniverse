@@ -56,13 +56,13 @@ const Reviews = (props: Props) => {
                     />
                 </div>
                 <div className="800px:w-[50%] w-full">
-                    <h3 className={`${styles.title} 800px:!text-[40px]`}>
+                    <h3 className={`${styles.title} 800px:!text-[30px] 1200px:!text-[40px]`}>
                         Our Students Are <span className="dark:text-[#46e256] text-[crimson]">Our Strength</span>{" "}
                         <br /> See What They Say About Us
                     </h3>
                     <br />
                     <p className={`${styles.label}`}>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nulla quidem enim vero quod mollitia neque qui nostrum necessitatibus placeat facere. Cumque at deleniti, velit, molestiae fugit quisquam optio nobis possimus praesentium qui impedit. Nostrum id, dolore corrupti nemo eligendi maxime!
+                        Empowering students to succeed! See what our learners have to say about their journey with us—how our innovative courses, expert instructors, and engaging content have made a difference in their education and careers.
                     </p>
                 </div>
             </div>
