@@ -1,9 +1,12 @@
+import { styles } from "@/app/styles/style"
 import CoursePlayer from "@/app/utils/CoursePlayer"
 import Ratings from "@/app/utils/Ratings"
+import Link from "next/link"
 import { FC } from "react"
 import { IoCheckmarkDoneOutline } from "react-icons/io5"
 import { useSelector } from "react-redux"
 import { format } from "timeago.js"
+import CourseContentList from '../Course/CourseContentList'
 
 type Props = {
     data: any
@@ -68,7 +71,7 @@ const CourseDetails: FC<Props> = ({ data }) => {
                             <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
                                 Course Overview
                             </h1>
-                            {/* CourseContentList */}
+                            <CourseContentList />
                         </div>
                         <br /><br />
                         <div className="w-full">
@@ -134,10 +137,36 @@ const CourseDetails: FC<Props> = ({ data }) => {
                                 <h1 className="pt-5 text-[25px] text-black dark:text-white">
                                     {data.price === 0 ? "free" : "$" + data.price}
                                 </h1>
-                                <h5 className="pl-5 pt-4 text-[22px] text-black dark:text-white">
-                                    {discountPercentagePrice}% off
+                                <h5 className="pl-3 text-[20px] mt-2 line-through opacity-80 text-black dark:text-white">
+                                    ${data.estimatedPrice}
                                 </h5>
+                                <h4 className="pl-5 pt-4 text-[22px] text-black dark:text-white">
+                                    {discountPercentagePrice}% off
+                                </h4>
                             </div>
+
+                            <div className="flex items-center">
+                                {isPurchased ? (
+                                    <Link
+                                        className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}
+                                        href={`/course-access/${data._id}`}
+                                    >
+                                        Enter to Course
+                                    </Link>
+                                ) : (
+                                    <div
+                                        className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}
+                                        onClick={handleOrder}
+                                    >
+                                        Buy Now $ {data.price}
+                                    </div>
+                                )}
+                            </div>
+                            <br />
+                            <p className="pb-1 text-black dark:text-white">· Source code included</p>
+                            <p className="pb-1 text-black dark:text-white">· Full life time access</p>
+                            <p className="pb-1 text-black dark:text-white">· Certificate on completion</p>
+                            <p className="pb-3 800px:pb-1 text-black dark:text-white">· Premium support</p>
                         </div>
                     </div>
                 </div>
