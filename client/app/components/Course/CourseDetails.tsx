@@ -71,7 +71,9 @@ const CourseDetails: FC<Props> = ({ data }) => {
                             <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
                                 Course Overview
                             </h1>
-                            <CourseContentList />
+                            <CourseContentList
+                                data={data?.courseData}
+                            />
                         </div>
                         <br /><br />
                         <div className="w-full">
