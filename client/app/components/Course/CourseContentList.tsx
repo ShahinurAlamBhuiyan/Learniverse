@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+import { MdOutlineOndemandVideo } from "react-icons/md";
 
 type Props = {
     data: any;
@@ -89,7 +90,18 @@ const CourseContentList: FC<Props> = (props) => {
                                             key={item._id}
                                             onClick={() => props.isDemo ? null : props?.setActiveVideo(videoIndex)}
                                         >
-
+                                            <div className="flex items-start">
+                                                <div>
+                                                    <MdOutlineOndemandVideo
+                                                        size={25}
+                                                        className="mr-2"
+                                                        color="#1cdada"
+                                                    />
+                                                    <h1 className="text-[18px] inline-block break-words text-black dark:text-white">
+                                                        {item.title}
+                                                    </h1>
+                                                </div>
+                                            </div>
                                         </div>
                                     )
                                 })
