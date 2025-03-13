@@ -73,6 +73,7 @@ const CourseDetails: FC<Props> = ({ data }) => {
                             </h1>
                             <CourseContentList
                                 data={data?.courseData}
+                                isDemo={true}
                             />
                         </div>
                         <br /><br />
@@ -160,7 +161,7 @@ const CourseDetails: FC<Props> = ({ data }) => {
                                         className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}
                                         onClick={handleOrder}
                                     >
-                                        Buy Now $ {data.price}
+                                        Buy Now ${data.price}
                                     </div>
                                 )}
                             </div>
