@@ -32,7 +32,7 @@ const CourseContentList: FC<Props> = (props) => {
     }
 
     return (
-        <div className={`mt-[15px] w-full ${!props.isDemo && 'ml-[-30px] min-h-screen sticky top-24 left-0 z-30'}`}>
+        <div className={`mt-[15px] w-full ${!props.isDemo && 'ml-[-30px] sticky top-24 left-0 z-30'}`}>
             {videoSections.map((section: string, sectionIndex: number) => {
                 const isSectionVisible = visibleSections.has(section);
 
@@ -104,9 +104,7 @@ const CourseContentList: FC<Props> = (props) => {
                                             </div>
                                         </div>
                                     )
-                                })
-
-                                }
+                                })}
                             </div>
                         )
 
