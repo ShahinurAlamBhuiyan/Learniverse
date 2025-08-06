@@ -15,6 +15,7 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user }: Pro
     const [activeBar, setActiveBar] = useState(0)
     const [question, setQuestion] = useState('')
     const [rating, setRating] = useState(0)
+    const [review, setReview] = useState('')
 
     const isReviewExists = data?.reviews?.find(
         (item: any) => item.user._id === user._id
@@ -120,46 +121,63 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user }: Pro
                 <div className="w-full">
                     <>
                         {!isReviewExists && (
-                            <div className="flex items-center w-full">
-                                <Image
-                                    src={
-                                        user.avatar
-                                            ? user.avatar.url
-                                            : 'https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png'
-                                    }
-                                    width={50}
-                                    height={50}
-                                    alt=""
-                                    className="w-[50px] h-[50px] rounded-full object-cover"
-                                />
-                                <div className="w-full">
-                                    <h5 className="pl-3 text-[20px] font-medium dark:text-white text-black">
-                                        Give a Rating <span className="text-red-500">
-                                            *
-                                        </span>
-                                    </h5>
+                            <>
+                                <div className="flex w-full">
+                                    <Image
+                                        src={
+                                            user.avatar
+                                                ? user.avatar.url
+                                                : 'https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png'
+                                        }
+                                        width={50}
+                                        height={50}
+                                        alt=""
+                                        className="w-[50px] h-[50px] rounded-full object-cover"
+                                    />
+                                    <div className="w-full">
+                                        <h5 className="pl-3 text-[20px] font-medium dark:text-white text-black">
+                                            Give a Rating <span className="text-red-500">
+                                                *
+                                            </span>
+                                        </h5>
 
-                                    <div className="flex w-full ml-2 pb-3">
-                                        {[1, 2, 3, 4, 5].map((i) => rating >= i ? (
-                                            <AiFillStar
-                                                key={i}
-                                                className="mr-1 cursor-pointer"
-                                                color="rgb(246, 186, 0)"
-                                                size={25}
-                                                onClick={() => setRating(i)}
-                                            />
-                                        ) : (
-                                            <AiOutlineStar
-                                                key={i}
-                                                className="mr-1 cursor-pointer"
-                                                color="rgb(246, 186, 0)"
-                                                size={25}
-                                                onClick={() => setRating(i)}
-                                            />
-                                        ))}
+                                        <div className="flex w-full ml-2 pb-3">
+                                            {[1, 2, 3, 4, 5].map((i) => rating >= i ? (
+                                                <AiFillStar
+                                                    key={i}
+                                                    className="mr-1 cursor-pointer"
+                                                    color="rgb(246, 186, 0)"
+                                                    size={25}
+                                                    onClick={() => setRating(i)}
+                                                />
+                                            ) : (
+                                                <AiOutlineStar
+                                                    key={i}
+                                                    className="mr-1 cursor-pointer"
+                                                    color="rgb(246, 186, 0)"
+                                                    size={25}
+                                                    onClick={() => setRating(i)}
+                                                />
+                                            ))}
+                                        </div>
+                                        <textarea
+                                            name=""
+                                            id=""
+                                            value={review}
+                                            onChange={(e) => setReview(e.target.value)}
+                                            cols={40}
+                                            rows={5}
+                                            placeholder="Write your comment..."
+                                            className="outline-none bg-transparent 800px:ml-3 border border-[#ffffff57] w-[95%] 800px:w-full p-2 rounded text-[18px] font-Poppins"
+                                        />
                                     </div>
                                 </div>
-                            </div>
+                                <div className={`${styles.button} !w-[120px] !h-[40px] text-[18px] mt-5 800px:mr-0 mr-2`}
+                                // onClick={isLoading ? null : handleReviewSubmit}
+                                >
+                                    Submit
+                                </div>
+                            </>
                         )}
                     </>
                 </div>
