@@ -172,10 +172,12 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user }: Pro
                                         />
                                     </div>
                                 </div>
-                                <div className={`${styles.button} !w-[120px] !h-[40px] text-[18px] mt-5 800px:mr-0 mr-2`}
-                                // onClick={isLoading ? null : handleReviewSubmit}
-                                >
-                                    Submit
+                                <div className="w-full flex justify-end">
+                                    <div className={`${styles.button} !w-[120px] !h-[40px] text-[18px] mt-5 800px:mr-0 mr-2`}
+                                    // onClick={isLoading ? null : handleReviewSubmit}
+                                    >
+                                        Submit
+                                    </div>
                                 </div>
                             </>
                         )}
