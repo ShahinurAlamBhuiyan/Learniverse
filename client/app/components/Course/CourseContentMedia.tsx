@@ -2,6 +2,7 @@ import { styles } from "@/app/styles/style";
 import CoursePlayer from "@/app/utils/CoursePlayer";
 import { useAddNewQuestionMutation } from "@/redux/features/courses/coursesApi";
 import Image from "next/image";
+import { format } from "timeago.js";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { AiFillStar, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineStar } from "react-icons/ai";
@@ -18,6 +19,8 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user, refet
     const [activeBar, setActiveBar] = useState(0)
     const [question, setQuestion] = useState('')
     const [rating, setRating] = useState(0)
+    const [answer, setAnswer] = useState('')
+    const [answerId, setAnswerId] = useState("")
     const [review, setReview] = useState('')
     const [addNewQuestion, { isSuccess, error, isLoading: questionCreationLoading }] = useAddNewQuestionMutation({});
 
@@ -47,6 +50,11 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user, refet
             }
         }
     }, [isSuccess, error])
+
+    const handleAnswerSubmit = () => {
+        console.log('first')
+    }
+
     return (
         <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
             <CoursePlayer
@@ -139,7 +147,15 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user, refet
 
                     </div>
                     <div>
-                        {/* questions reply */}
+                        <CommentReply
+                            data={data}
+                            activeVideo={activeVideo}
+                            answer={answer}
+                            setAnswer={setAnswer}
+                            handleAnswerSubmit={handleAnswerSubmit}
+                            user={user}
+                            setAnswerId={setAnswerId}
+                        />
                     </div>
                 </>
             )}
@@ -213,5 +229,66 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user, refet
             )}
         </div>
     )
+};
+
+
+const CommentReply = ({ data, activeVideo, answer, setAnswer, user, setAnswerId, handleAnswerSubmit }: any) => {
+    console.log(data[activeVideo].questions[0])
+    return (
+        <>
+            <div className="w-full my-3">
+                {
+                    data[activeVideo]?.questions.map((item: any, index: any) => (
+                        <CommentItem
+                            key={index}
+                            data={data}
+                            activeVideo={activeVideo}
+                            item={item}
+                            index={index}
+                            answer={answer}
+                            setAnswer={setAnswer}
+                            handleAnswerSubmit={handleAnswerSubmit}
+                        />
+                    ))
+                }
+            </div>
+        </>
+    )
 }
+
+
+const CommentItem = ({ data, activeVideo, item, answer, setAnswer, handleAnswerSubmit }: any) => {
+    console.log(item)
+    return (
+        <>
+            <div className="my-4">
+                <div className="flex mb-2">
+                    {/* <div className="w-[50px] h-[50px]">
+                        <div className="w-[50px] h-[50px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
+                            <h1 className="uppercase text-[18px]">
+                                {item?.user.name.slice(0, 2)}
+                            </h1>
+                        </div>
+                    </div> */}
+                    <Image
+                        src={item.user.avatar ? item.user.avatar.url : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"}
+                        width={50}
+                        height={50}
+                        alt=""
+                        className="w-[50px] h-[50px] rounded-full object-cover"
+                    />
+                    <div className="pl-3">
+                        <h5 className="text-[20px]">{item?.user.name}</h5>
+                        <p>{item?.question}</p>
+                        <small className="text-[#ffffff83]">
+                            {format(item?.createdAt)} •
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+
 export default CourseContentMedia

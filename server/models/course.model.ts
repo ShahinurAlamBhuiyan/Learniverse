@@ -50,15 +50,18 @@ interface ICourse extends Document {
   purchased?: number;
 }
 
-const reviewSchema = new Schema<IReview>({
-  user: Object,
-  rating: {
-    type: Number,
-    default: 0,
+const reviewSchema = new Schema<IReview>(
+  {
+    user: Object,
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    comment: String,
+    commentReplies: [Object],
   },
-  comment: String,
-  commentReplies: [Object],
-});
+  { timestamps: true }
+);
 
 const linkSchema = new Schema<ILink>({
   title: String,
@@ -71,17 +74,20 @@ const commentSchema = new Schema<IComment>({
   questionReplies: [Object],
 });
 
-const courseDataSchema = new Schema<ICourseData>({
-  title: String,
-  description: String,
-  videoUrl: String,
-  videoSection: String,
-  videoLength: Number,
-  videoPlayer: String,
-  links: [linkSchema],
-  suggestion: String,
-  questions: [commentSchema],
-});
+const courseDataSchema = new Schema<ICourseData>(
+  {
+    title: String,
+    description: String,
+    videoUrl: String,
+    videoSection: String,
+    videoLength: Number,
+    videoPlayer: String,
+    links: [linkSchema],
+    suggestion: String,
+    questions: [commentSchema],
+  },
+  { timestamps: true }
+);
 
 const courseSchema = new Schema<ICourse>(
   {
