@@ -1,7 +1,9 @@
 import { styles } from "@/app/styles/style";
 import CoursePlayer from "@/app/utils/CoursePlayer";
+import { useAddNewQuestionMutation } from "@/redux/features/courses/coursesApi";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { AiFillStar, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineStar } from "react-icons/ai";
 
 type Props = {
@@ -10,17 +12,41 @@ type Props = {
     activeVideo: number;
     setActiveVideo: (activeVideo: number) => void;
     user: any;
+    refetch: any;
 }
-const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user }: Props) => {
+const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user, refetch }: Props) => {
     const [activeBar, setActiveBar] = useState(0)
     const [question, setQuestion] = useState('')
     const [rating, setRating] = useState(0)
     const [review, setReview] = useState('')
+    const [addNewQuestion, { isSuccess, error, isLoading: questionCreationLoading }] = useAddNewQuestionMutation({});
 
     const isReviewExists = data?.reviews?.find(
         (item: any) => item.user._id === user._id
     )
 
+    const handleQuestion = () => {
+        if (question.length === 0) {
+            toast.error("Question can't be empty!");
+        } else {
+            addNewQuestion({ question, courseId: id, contentId: data[activeVideo]._id });
+        }
+    };
+
+    useEffect(() => {
+        if (isSuccess) {
+            setQuestion("");
+            refetch();
+            toast.success('Question added successfully!')
+        }
+
+        if (error) {
+            if ('data' in error) {
+                const errorMessage = error as any;
+                toast.error(errorMessage.data.message)
+            }
+        }
+    }, [isSuccess, error])
     return (
         <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
             <CoursePlayer
@@ -101,7 +127,8 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user }: Pro
 
                     <div className="w-full flex justify-end">
                         <div
-                            className={`${styles.button} !w-[120px] !h-[40px] text-[18px] mt-5`}
+                            className={`${styles.button} !w-[120px] !h-[40px] text-[18px] mt-5 ${questionCreationLoading && 'cursor-not-allowed'}`}
+                            onClick={questionCreationLoading ? () => { } : handleQuestion}
                         >
                             Submit
                         </div>
