@@ -6,6 +6,7 @@ import { format } from "timeago.js";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { AiFillStar, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineStar } from "react-icons/ai";
+import { BiMessage } from "react-icons/bi";
 
 type Props = {
     data: any;
@@ -258,18 +259,11 @@ const CommentReply = ({ data, activeVideo, answer, setAnswer, user, setAnswerId,
 
 
 const CommentItem = ({ data, activeVideo, item, answer, setAnswer, handleAnswerSubmit }: any) => {
-    console.log(item)
+    const [replyActive, setReplyActive] = useState(false);
     return (
         <>
             <div className="my-4">
                 <div className="flex mb-2">
-                    {/* <div className="w-[50px] h-[50px]">
-                        <div className="w-[50px] h-[50px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
-                            <h1 className="uppercase text-[18px]">
-                                {item?.user.name.slice(0, 2)}
-                            </h1>
-                        </div>
-                    </div> */}
                     <Image
                         src={item.user.avatar ? item.user.avatar.url : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"}
                         width={50}
@@ -277,14 +271,56 @@ const CommentItem = ({ data, activeVideo, item, answer, setAnswer, handleAnswerS
                         alt=""
                         className="w-[50px] h-[50px] rounded-full object-cover"
                     />
-                    <div className="pl-3">
+                    <div className="pl-3 text-black dark:text-white">
                         <h5 className="text-[20px]">{item?.user.name}</h5>
                         <p>{item?.question}</p>
-                        <small className="text-[#ffffff83]">
+                        <small className="">
                             {format(item?.createdAt)} •
                         </small>
                     </div>
                 </div>
+                <div className="w-full flex">
+                    <span
+                        className="800px:pl-16 text-black dark:text-[#ffffff83] cursor-pointer mr-2"
+                        onClick={() => setReplyActive(!replyActive)}
+                    >
+                        {!replyActive ? item.questionReplies.length !== 0 ? "All Replies" : "Add Reply" : "Hide Replies"}
+                    </span>
+                    <BiMessage size={20} className="cursor-pointer text-black dark:text-[#ffffff83]" />
+                    <span className="pl-1 mt-[-4px] cursor-pointer text-black dark:text-[#ffffff83]">
+                        {item.questionReplies.length}
+                    </span>
+                </div>
+
+                {replyActive && (
+                    <>
+                        {item.questionReplies.map((item: any) => (
+                            <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
+                                <div>
+                                    <Image
+                                        src={item.user.avatar ? item.user.avatar.url : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"}
+                                        width={50}
+                                        height={50}
+                                        alt=""
+                                        className="w-[50px] h-[50px] rounded-full object-cover"
+                                    />
+                                </div>
+                                <div className="pl-2">
+                                    <h5 className="text-[20px]">{item.user.name}</h5>
+                                    <p>{item.comment}</p>
+                                    <small className="">
+                                        {format(item?.createdAt)} •
+                                    </small>
+                                </div>
+                            </div>
+                        ))}
+                        <>
+                            <div className="w-full flex relative">
+                                <input type="text" />
+                            </div>
+                        </>
+                    </>
+                )}
             </div>
         </>
     )
