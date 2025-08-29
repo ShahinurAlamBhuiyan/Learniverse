@@ -1,12 +1,13 @@
 import { styles } from "@/app/styles/style";
 import CoursePlayer from "@/app/utils/CoursePlayer";
-import { useAddNewQuestionMutation } from "@/redux/features/courses/coursesApi";
+import { useAddAnswerInQuestionMutation, useAddNewQuestionMutation } from "@/redux/features/courses/coursesApi";
 import Image from "next/image";
 import { format } from "timeago.js";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { AiFillStar, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineStar } from "react-icons/ai";
 import { BiMessage } from "react-icons/bi";
+import { VscVerifiedFilled } from "react-icons/vsc";
 
 type Props = {
     data: any;
@@ -21,9 +22,10 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user, refet
     const [question, setQuestion] = useState('')
     const [rating, setRating] = useState(0)
     const [answer, setAnswer] = useState('')
-    const [answerId, setAnswerId] = useState("")
+    const [questionId, setQuestionId] = useState("")
     const [review, setReview] = useState('')
     const [addNewQuestion, { isSuccess, error, isLoading: questionCreationLoading }] = useAddNewQuestionMutation({});
+    const [addAnswerInQuestion, { isSuccess: answerSuccess, error: answerError, isLoading: answerCreationLoading }] = useAddAnswerInQuestionMutation();
 
     const isReviewExists = data?.reviews?.find(
         (item: any) => item.user._id === user._id
@@ -44,17 +46,37 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user, refet
             toast.success('Question added successfully!')
         }
 
+        if (answerSuccess) {
+            setAnswer("")
+            refetch()
+            toast.success("Answer added successfully!")
+        }
+
         if (error) {
             if ('data' in error) {
                 const errorMessage = error as any;
                 toast.error(errorMessage.data.message)
             }
         }
-    }, [isSuccess, error])
+        if (error) {
+            if ('data' in error) {
+                const errorMessage = error as any;
+                toast.error(errorMessage.data.message)
+            }
+        }
+
+        if (answerError) {
+            if ('data' in answerError) {
+                const errorMessage = error as any;
+                toast.error(errorMessage.data.message)
+            }
+        }
+    }, [isSuccess, error, answerSuccess, answerError])
 
     const handleAnswerSubmit = () => {
-        console.log('first')
+        addAnswerInQuestion({ answer, courseId: id, contentId: data[activeVideo]._id, questionId: questionId })
     }
+    console.log(questionId)
 
     return (
         <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
@@ -130,7 +152,7 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user, refet
                             cols={40}
                             rows={5}
                             placeholder="Write your question..."
-                            className="outline-none bg-transparent ml-3 border border-[#ffffff57] 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins"
+                            className="outline-none bg-transparent ml-3 border border-black dark:border-[#ffffff57] 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins"
                         />
                     </div>
 
@@ -155,7 +177,8 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user, refet
                             setAnswer={setAnswer}
                             handleAnswerSubmit={handleAnswerSubmit}
                             user={user}
-                            setAnswerId={setAnswerId}
+                            setQuestionId={setQuestionId}
+                            answerCreationLoading={answerCreationLoading}
                         />
                     </div>
                 </>
@@ -233,8 +256,7 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user, refet
 };
 
 
-const CommentReply = ({ data, activeVideo, answer, setAnswer, user, setAnswerId, handleAnswerSubmit }: any) => {
-    console.log(data[activeVideo].questions[0])
+const CommentReply = ({ data, activeVideo, answer, setAnswer, user, setQuestionId, handleAnswerSubmit, answerCreationLoading }: any) => {
     return (
         <>
             <div className="w-full my-3">
@@ -249,6 +271,8 @@ const CommentReply = ({ data, activeVideo, answer, setAnswer, user, setAnswerId,
                             answer={answer}
                             setAnswer={setAnswer}
                             handleAnswerSubmit={handleAnswerSubmit}
+                            setQuestionId={setQuestionId}
+                            answerCreationLoading={answerCreationLoading}
                         />
                     ))
                 }
@@ -258,7 +282,7 @@ const CommentReply = ({ data, activeVideo, answer, setAnswer, user, setAnswerId,
 }
 
 
-const CommentItem = ({ data, activeVideo, item, answer, setAnswer, handleAnswerSubmit }: any) => {
+const CommentItem = ({ data, setQuestionId, item, answer, setAnswer, handleAnswerSubmit, answerCreationLoading }: any) => {
     const [replyActive, setReplyActive] = useState(false);
     return (
         <>
@@ -282,7 +306,7 @@ const CommentItem = ({ data, activeVideo, item, answer, setAnswer, handleAnswerS
                 <div className="w-full flex">
                     <span
                         className="800px:pl-16 text-black dark:text-[#ffffff83] cursor-pointer mr-2"
-                        onClick={() => setReplyActive(!replyActive)}
+                        onClick={() => { setReplyActive(!replyActive), setQuestionId(item._id) }}
                     >
                         {!replyActive ? item.questionReplies.length !== 0 ? "All Replies" : "Add Reply" : "Hide Replies"}
                     </span>
@@ -305,9 +329,9 @@ const CommentItem = ({ data, activeVideo, item, answer, setAnswer, handleAnswerS
                                         className="w-[50px] h-[50px] rounded-full object-cover"
                                     />
                                 </div>
-                                <div className="pl-2">
-                                    <h5 className="text-[20px]">{item.user.name}</h5>
-                                    <p>{item.comment}</p>
+                                <div className="pl-3">
+                                    <h5 className="text-[20px] flex items-center justify-center gap-2">{item.user.name} <VscVerifiedFilled className="text-blue-600" /></h5>
+                                    <p>{item.answer}</p>
                                     <small className="">
                                         {format(item?.createdAt)} •
                                     </small>
@@ -316,8 +340,23 @@ const CommentItem = ({ data, activeVideo, item, answer, setAnswer, handleAnswerS
                         ))}
                         <>
                             <div className="w-full flex relative">
-                                <input type="text" />
+                                <input
+                                    type="text"
+                                    placeholder="Enter your answer..."
+                                    value={answer}
+                                    onChange={(e) => setAnswer(e.target.value)}
+                                    className={`block 800px:ml-12 mt-2 outline-none bg-transparent border-b text-black dark:text-white border-black dark:border-[#fff] p-[5px] w-[95%] ${answer === "" || answerCreationLoading && 'cursor-no-drop'}`}
+                                />
+                                <button
+                                    type="submit"
+                                    className="absolute right-0 bottom-1 dark:text-white text-black"
+                                    onClick={handleAnswerSubmit}
+                                    disabled={answer === "" || answerCreationLoading}
+                                >
+                                    Submit
+                                </button>
                             </div>
+                            <br />
                         </>
                     </>
                 )}
