@@ -11,6 +11,7 @@ import CheckOutForm from '../Payment/CheckOutForm'
 import { Elements } from '@stripe/react-stripe-js'
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice"
 import Image from "next/image"
+import { VscVerifiedFilled } from "react-icons/vsc"
 
 type Props = {
     data: any;
@@ -111,20 +112,18 @@ const CourseDetails: FC<Props> = ({ data, clientSecret, stripePromise }) => {
                                     <div className="w-full pb-4" key={index}>
                                         <div className="flex">
                                             <div className="w-[50px] h-[50px]">
-                                                <div className="w-[50px] h-[50px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
-                                                    <Image
-                                                        src={item.user.avatar ? item.user.avatar.url : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"}
-                                                        width={50}
-                                                        height={50}
-                                                        alt=""
-                                                        className="w-full h-full rounded-full object-cover"
-                                                    />
-                                                </div>
+                                                <Image
+                                                    src={item.user.avatar ? item.user.avatar.url : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"}
+                                                    width={50}
+                                                    height={50}
+                                                    alt=""
+                                                    className="w-full h-full rounded-full object-cover"
+                                                />
                                             </div>
                                             <div className="hidden 800px:block pl-2">
                                                 <div className="flex items-center">
                                                     <h5 className="text-[18px] pr-2 text-black dark:text-white">{item.user.name}</h5>
-                                                    <Ratings rating={item.ratings} />
+                                                    <Ratings rating={item.rating} />
                                                 </div>
                                                 <p className="text-black dark:text-white">{item.comment}</p>
                                                 <small>
@@ -138,6 +137,27 @@ const CourseDetails: FC<Props> = ({ data, clientSecret, stripePromise }) => {
                                                 <Ratings rating={item.rating} />
                                             </div>
                                         </div>
+
+                                        {item.commentReplies.map((i: any, index: number) => (
+                                            <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
+                                                <Image
+                                                    src={i.user.avatar ? i.user.avatar.url : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"}
+                                                    width={50}
+                                                    height={50}
+                                                    alt=""
+                                                    className="w-[50px] h-[50px] rounded-full object-cover"
+                                                />
+                                                <div className="pl-2">
+                                                    <h5 className="text-[20px] flex justify-center items-center gap-2">
+                                                        {i.user.name} <VscVerifiedFilled className="text-blue-600" />
+                                                    </h5>
+                                                    <p>{i.comment}</p>
+                                                    <small>
+                                                        {format(i.createdAt)} •
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 ))}
                         </div>
