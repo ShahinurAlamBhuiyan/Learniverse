@@ -363,8 +363,8 @@ const CourseContentMedia = ({ data, id, activeVideo, setActiveVideo, user, refet
                                                 className="w-[50px] h-[50px] rounded-full object-cover"
                                             />
                                             <div className="pl-2">
-                                                <h5 className="text-[20px]">
-                                                    {item.user.name}
+                                                <h5 className="text-[20px] flex justify-center items-center gap-2">
+                                                    {item.user.name} {item.user.role === 'admin' && <VscVerifiedFilled className="text-blue-600" />}
                                                 </h5>
                                                 <p>{item.comment}</p>
                                                 <small>

@@ -10,6 +10,7 @@ import CourseContentList from '../Course/CourseContentList'
 import CheckOutForm from '../Payment/CheckOutForm'
 import { Elements } from '@stripe/react-stripe-js'
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice"
+import Image from "next/image"
 
 type Props = {
     data: any;
@@ -111,9 +112,13 @@ const CourseDetails: FC<Props> = ({ data, clientSecret, stripePromise }) => {
                                         <div className="flex">
                                             <div className="w-[50px] h-[50px]">
                                                 <div className="w-[50px] h-[50px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
-                                                    <h1 className="uppercase text-[18px] text-black dark:text-white">
-                                                        {item.user.name.slice(0, 2)}
-                                                    </h1>
+                                                    <Image
+                                                        src={item.user.avatar ? item.user.avatar.url : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"}
+                                                        width={50}
+                                                        height={50}
+                                                        alt=""
+                                                        className="w-full h-full rounded-full object-cover"
+                                                    />
                                                 </div>
                                             </div>
                                             <div className="hidden 800px:block pl-2">
